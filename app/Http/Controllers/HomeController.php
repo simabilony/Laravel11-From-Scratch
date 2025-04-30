@@ -12,16 +12,19 @@ class HomeController extends Controller
 {
     public function index()
     {
-//        $allCategories = ['Category 1', 'Category 2'];
-     //        $allCategories = DB::table('categories')->get(); // query builder
+//  $allCategories = ['Category 1', 'Category 2'];
+        //$allCategories = DB::table('categories')->get(); // query builder
         $categories = Category::all();
 //        $posts = Post::orderBy('id', 'desc')->get();
 //        $posts = Post::latest()->get();
-//        $posts = Post::where('category_id', request('category_id'))->latest()->get();
 
-        $posts = Post::when(request('category_id'), function ($query) {
+//     $posts = Post::where('category_id', request('category_id'))->latest()->get();
+
+        $posts = Post::when(request('category_id'),
+            function ($query) {
             $query->where('category_id', request('category_id'));
-        })->latest()->get();
+        }
+        )->latest()->get();
 
         return view('home',
             compact(
